@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Fenómeno del Niño y Súper Niño</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://img.freepik.com/fotos-premium/lago-montana-panoramico-concepto-agua-cristalina-fotografia-naturaleza-paisajes-serenos-aguas-cristalinas-vistas-al-lago-montana_864588-185517.jpg')
+                no-repeat center center fixed;
+            background-size: cover;
+            color: #f3f4f6;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* BARRA DE NAVEGACIÓN */
+        header {
+            background: rgba(27, 38, 59, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card-page {
+            background: rgba(55, 65, 81, 0.95);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            min-height: 400px;
+            display: none;
+            border: 3px solid transparent;
+            border-image:
+                url('https://tse1.mm.bing.net/th/id/OIP.lEVBZZ4IqMqFh4ndlohKsAHaFj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3')
+                30 stretch;
+        }
+
+        .card-page.active {
+            display: block;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            text-align: center;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #60a5fa;
+            margin: 25px 0 12px 0;
+            font-size: 1.5rem;
+            background: rgba(30, 41, 59, 0.6);
+            padding: 8px 12px;
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 6px 6px 0;
+        }
+
+        h3 {
+            color: #93c5fd;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #e5e7eb;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #e5e7eb;
+        }
+
+        .box-highlight {
+            background-color: rgba(30, 41, 59, 0.8);
+            border-left: 5px solid #60a5fa;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .content-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        /* ==================================================
+           HEXAGRAMA - LENGUA CASTELLANA
+           ================================================== */
+
+        .hexagrama {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-areas:
+                ". top ."
+                "lefttop center righttop"
+                "leftbottom center rightbottom"
+                ". bottom .";
+            gap: 18px;
+            align-items: stretch;
+            margin: 30px auto;
+            max-width: 850px;
+        }
+
+        .hex-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 2px solid #60a5fa;
+            padding: 18px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .hex-card:hover {
+            transform: translateY(-4px);
+            background: rgba(37, 99, 235, 0.35);
+        }
+
+        .hex-card h3 {
+            text-align: center;
+            color: #93c5fd;
+            margin-bottom: 8px;
+        }
+
+        .hex-card p {
+            font-size: 0.95rem;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .hex-top {
+            grid-area: top;
+        }
+
+        .hex-left-top {
+            grid-area: lefttop;
+        }
+
+        .hex-right-top {
+            grid-area: righttop;
+        }
+
+        .hex-left-bottom {
+            grid-area: leftbottom;
+        }
+
+        .hex-right-bottom {
+            grid-area: rightbottom;
+        }
+
+        .hex-bottom {
+            grid-area: bottom;
+        }
+
+        .hex-center {
+            grid-area: center;
+            background: linear-gradient(
+                135deg,
+                rgba(37, 99, 235, 0.95),
+                rgba(30, 64, 175, 0.95)
+            );
+            border: 3px solid #93c5fd;
+            border-radius: 50%;
+            min-height: 170px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+            align-self: center;
+        }
+
+        .hex-center strong {
+            color: white;
+            font-size: 1.25rem;
+            line-height: 1.4;
+        }
+
+        /* BOTONES */
+        .in-process-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .in-process-text {
+            font-size: 1.5rem;
+            color: #f59e0b;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .btn-back {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-back:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* TABLAS */
+        table {
+            width: 100%;
+        }
+
+        /* PIE DE PÁGINA */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(27, 38, 59, 0.95);
+            color: #9ca3af;
+            margin-top: 50px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .hexagrama {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "top"
+                    "lefttop"
+                    "righttop"
+                    "center"
+                    "leftbottom"
+                    "rightbottom"
+                    "bottom";
+            }
+
+            .hex-center {
+                min-height: 150px;
+                border-radius: 12px;
+            }
+
+            .card-page {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a id="link-inicio"
+                       class="nav-link active"
+                       onclick="mostrarPagina('inicio', this)">
+                        Inicio
+                    </a>
+                </li>
+
+                <li>
+                    <a id="link-lengua"
+                       class="nav-link"
+                       onclick="mostrarPagina('lengua-castellana', this)">
+                        Lengua Castellana
+                    </a>
+                </li>
+
+                <li>
+                    <a id="link-ambiental"
+                       class="nav-link"
+                       onclick="mostrarPagina('educacion-ambiental', this)">
+                        Educación Ambiental
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- ==================================================
+             PÁGINA 1: INICIO
+             ================================================== -->
+
+        <div id="inicio" class="card-page active">
+
+            <h1>El Fenómeno del Niño y el Súper Niño</h1>
+
+            <p>
+                <strong>El Niño - Oscilación del Sur (ENOS)</strong>
+                es un patrón climático cíclico de origen oceánico-atmosférico
+                que involucra la fluctuación de las temperaturas del agua
+                superficial en el Océano Pacífico tropical ecuatorial.
+                Este evento altera el patrón global de vientos y lluvias,
+                provocando transformaciones meteorológicas severas en
+                diversos continentes.
+            </p>
+
+            <img class="content-image"
+                 src="https://tse1.explicit.bing.net/th/id/OIP.T5MHVPNtm3RqhWjl7rdFEQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+                 alt="Concepto del fenómeno El Niño y sequía">
+
+            <h2>¿Cómo Funciona el Mecanismo Oceánico?</h2>
+
+            <p>
+                En condiciones normales, los vientos alisios soplan hacia
+                el oeste a lo largo del ecuador, empujando el agua cálida
+                superficial hacia el Pacífico occidental (Asia y Oceanía).
+                Durante un evento de El Niño, estos vientos se debilitan o
+                invierten su dirección, permitiendo que la masa de agua
+                cálida se desplace hacia las costas del Pacífico oriental
+                (Sudamérica).
+            </p>
+
+            <div class="box-highlight">
+
+                <h3>¿Qué es el Súper Niño?</h3>
+
+                <p>
+                    Se categoriza como <strong>Súper Niño</strong> cuando
+                    la anomalía térmica en la zona Pacífico 3.4 supera
+                    los 2.0 °C por encima del promedio histórico durante
+                    un período sostenido. Estos eventos extremos modifican
+                    drásticamente la corriente de chorro planetaria y
+                    desencadenan catástrofes meteorológicas sin precedentes.
+                </p>
+
+            </div>
+
+            <h2>¿Cómo Nos Afecta?</h2>
+
+            <p>
+                El impacto directo de este fenómeno se distribuye de forma
+                asimétrica alrededor del planeta, alterando la estabilidad
+                económica, agrícola y social:
+            </p>
+
+            <div class="grid-2">
+
+                <div>
+                    <h3>1. Agricultura y Alimentos</h3>
+
+                    <p>
+                        Las sequías intensas destruyen cultivos de primera
+                        necesidad, mientras que las lluvias excesivas
+                        pudren la siembra, generando inflación en la
+                        canasta básica.
+                    </p>
+                </div>
+
+                <div>
+                    <h3>2. Crisis Hídrica y Energética</h3>
+
+                    <p>
+                        La baja en el caudal de los ríos reduce la
+                        disponibilidad de agua potable y limita la
+                        generación de energía en plantas hidroeléctricas.
+                    </p>
+                </div>
+
+            </div>
+
+            <img class="content-image"
+                 src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSPOWU5C-JZrsnJzBLThoWvQ6mUqq2aWRHGK7cE1ti0pIhsUbFbNYadfHTBJ70SVvJ8CdQKej8vB074P2Q"
+                 alt="Inundaciones causadas por lluvias extremas">
+
+            <h2>Consecuencias Ambientales y Sociales</h2>
+
+            <ul>
+
+                <li>
+                    <strong>Inundaciones y deslizamientos de tierra:</strong>
+                    En las costas de Sudamérica, las precipitaciones
+                    torrenciales desbordan ríos y arrasan infraestructura
+                    vial y urbana.
+                </li>
+
+                <li>
+                    <strong>Incendios forestales masivos:</strong>
+                    Regiones como el sureste asiático y el interior del
+                    continente sudamericano enfrentan sequías prolongadas
+                    que incrementan los incendios.
+                </li>
+
+                <li>
+                    <strong>Colapso de ecosistemas marinos:</strong>
+                    El agua cálida detiene el afloramiento de nutrientes
+                    profundos, provocando la migración masiva de peces y
+                    el blanqueamiento irreversible de corales.
+                </li>
+
+                <li>
+                    <strong>Emergencias Sanitarias:</strong>
+                    Las aguas estancadas tras las inundaciones multiplican
+                    la presencia de mosquitos vectores de enfermedades como
+                    el dengue, el zika y la malaria.
+                </li>
+
+            </ul>
+
+            <img class="content-image"
+                 src="https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRYk-XlO0p2paThap4iCPw-W-apl_JU87KTwWGK9JSAOzyb6TpHp32uzFPxNKZADKZVWgwJo_0r7yaBY8s"
+                 alt="Proceso de blanqueamiento de corales por aumento de temperatura">
+
+        </div>
+
+
+        <!-- ==================================================
+             PÁGINA 2: LENGUA CASTELLANA
+             ================================================== -->
+
+        <div id="lengua-castellana" class="card-page">
+
+            <h1>Lengua Castellana</h1>
+
+            <h2>
+                Hexagrama: El Fenómeno de El Niño y el Súper Niño
+            </h2>
+
+            <div class="hexagrama">
+
+                <!-- PARTE SUPERIOR -->
+                <div class="hex-card hex-top">
+
+                    <h3>¿Qué es?</h3>
+
+                    <p>
+                        Es un fenómeno climático relacionado con el
+                        calentamiento anormal de las aguas del océano
+                        Pacífico ecuatorial.
+                    </p>
+
+                </div>
+
+
+                <!-- IZQUIERDA SUPERIOR -->
+                <div class="hex-card hex-left-top">
+
+                    <h3>¿Cómo se produce?</h3>
+
+                    <p>
+                        Los vientos alisios se debilitan y permiten que
+                        las aguas cálidas se desplacen hacia el Pacífico
+                        oriental.
+                    </p>
+
+                </div>
+
+
+                <!-- DERECHA SUPERIOR -->
+                <div class="hex-card hex-right-top">
+
+                    <h3>¿Qué es el Súper Niño?</h3>
+
+                    <p>
+                        Es una forma muy intensa de El Niño, asociada con
+                        un calentamiento excepcional del Pacífico.
+                    </p>
+
+                </div>
+
+
+                <!-- CENTRO -->
+                <div class="hex-center">
+
+                    <strong>
+                        EL NIÑO<br>
+                        Y<br>
+                        SÚPER NIÑO
+                    </strong>
+
+                </div>
+
+
+                <!-- IZQUIERDA INFERIOR -->
+                <div class="hex-card hex-left-bottom">
+
+                    <h3>Consecuencias</h3>
+
+                    <p>
+                        Puede causar sequías, lluvias intensas,
+                        inundaciones, incendios y cambios en los
+                        ecosistemas.
+                    </p>
+
+                </div>
+
+
+                <!-- DERECHA INFERIOR -->
+                <div class="hex-card hex-right-bottom">
+
+                    <h3>En Colombia</h3>
+
+                    <p>
+                        Puede favorecer temperaturas más altas,
+                        disminución de lluvias, sequías y reducción
+                        de niveles de ríos y embalses.
+                    </p>
+
+                </div>
+
+
+                <!-- PARTE INFERIOR -->
+                <div class="hex-card hex-bottom">
+
+                    <h3>¿Cómo prevenir?</h3>
+
+                    <p>
+                        Ahorrar y reutilizar el agua, cuidar los recursos
+                        naturales y prepararse ante períodos de sequía
+                        o lluvias fuertes.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+<!-- RESUMEN DEL VIDEO -->
+
+<h2>
+    Resumen del video: El Niño y La Niña
+</h2>
+
+<div class="box-highlight">
+
+    <h3>
+        ¿Qué explica el video?
+    </h3>
+
+    <p>
+        El video explica que El Niño y La Niña son fenómenos climáticos
+        naturales que forman parte de un ciclo conocido como El Niño-Oscilación
+        del Sur (ENOS). Estos fenómenos se producen por cambios en la
+        temperatura de las aguas del océano Pacífico y por la interacción
+        entre el océano y la atmósfera. Aunque ocurren principalmente en el
+        Pacífico, sus efectos pueden sentirse en diferentes partes del mundo.
+    </p>
+
+    <p>
+        <strong>El fenómeno de El Niño</strong> ocurre cuando las aguas
+        superficiales del Pacífico ecuatorial se calientan más de lo normal.
+        Este calentamiento modifica la circulación de los vientos y cambia
+        la distribución de las lluvias. Como consecuencia, algunas regiones
+        pueden experimentar períodos de sequía y temperaturas más altas,
+        mientras que otras pueden recibir lluvias más intensas.
+    </p>
+
+    <p>
+        Por otro lado, <strong>La Niña</strong> se presenta cuando las aguas
+        superficiales del Pacífico ecuatorial se enfrían por debajo de sus
+        valores normales. Este enfriamiento también modifica los patrones
+        atmosféricos y puede producir efectos climáticos diferentes a los
+        de El Niño, aumentando las lluvias en algunas zonas y favoreciendo
+        condiciones más secas en otras.
+    </p>
+
+    <p>
+        El video también permite comprender que estos fenómenos no afectan
+        solamente al clima. Sus consecuencias pueden influir en la
+        agricultura, la disponibilidad de agua, los ecosistemas, la pesca
+        y las actividades económicas de las comunidades. Por esta razón,
+        conocer su comportamiento es importante para tomar medidas de
+        prevención y reducir sus posibles impactos.
+    </p>
+
+    <p>
+        En conclusión, <strong>El Niño y La Niña son fenómenos relacionados
+        con las variaciones de temperatura del océano Pacífico</strong> que
+        pueden alterar las condiciones climáticas de diferentes regiones.
+        Comprender sus causas y consecuencias ayuda a prepararnos mejor
+        frente a períodos de sequía, lluvias intensas y otros cambios
+        asociados al clima.
+    </p>
+
+</div>
+
+<p style="text-align:center; margin-top:25px;">
+
+    <a class="btn-back"
+       href="https://www.youtube.com/watch?v=c1H8ulqOO3A"
+       target="_blank"
+       rel="noopener noreferrer">
+
+        ▶ Ver video original
+
+    </a>
+
+</p>
+
+
+            <div class="in-process-container">
+
+                <a class="btn-back"
+                   onclick="volverAlInicio()">
+
+                    ← Volver a la página de inicio
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             PÁGINA 3: EDUCACIÓN AMBIENTAL
+             ================================================== -->
+
+        <div id="educacion-ambiental" class="card-page">\
+</div>
+
+    </div>
+
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer>
+
+        <p>
+            © Proyecto Escolar - El Fenómeno del Niño y Súper Niño
+        </p>
+
+    </footer>
+
+
+    <!-- ==================================================
+         SCRIPT PARA CAMBIAR ENTRE PÁGINAS
+         ================================================== -->
+
+    <script>
+
+        function mostrarPagina(idPagina, elementoEnlace) {
+
+            const paginas =
+                document.querySelectorAll('.card-page');
+
+            paginas.forEach(function(pagina) {
+                pagina.classList.remove('active');
+            });
+
+
+            const enlaces =
+                document.querySelectorAll('.nav-link');
+
+            enlaces.forEach(function(enlace) {
+                enlace.classList.remove('active');
+            });
+
+
+            document
+                .getElementById(idPagina)
+                .classList.add('active');
+
+
+            if (elementoEnlace) {
+                elementoEnlace.classList.add('active');
+            }
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+
+        function volverAlInicio() {
+
+            const enlaceInicio =
+                document.getElementById('link-inicio');
+
+            mostrarPagina(
+                'inicio',
+                enlaceInicio
+            );
+        }
+
+    </script>
+
+</body>
+</html>
